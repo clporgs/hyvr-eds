@@ -52,11 +52,14 @@ flowchart LR
 
 ## 2. Branching & release strategy
 
-- **Trunk-based**: `main` is always releasable and protected.
-- **Short-lived feature branches**, one logical change each, merged via PR and deleted after merge.
-- **Preview-per-branch**: every branch is previewable at its own `*.aem.page` URL for review before merge.
-- **No long-running release branches**; releases are merges to `main` that auto-deploy. Tag notable releases
-  for traceability.
+- **Three long-lived environment branches** (program-wide standard — see
+  [`../../docs/branching-and-environments.md`](../../docs/branching-and-environments.md)):
+  `main` → Production, `stage` → Staging/UAT, `dev` → Development. `main` is the protected default.
+- **Short-lived `feature/*` branches** cut from `dev`, one logical change each, merged via PR and deleted.
+- **Preview-per-branch**: Code Sync publishes every branch to its own `*.aem.page` URL; the three
+  environment branches map to the three stable EDS environments.
+- **Forward-only promotion**: `feature/*` → `dev` → `stage` → `main`; never commit directly to
+  `stage`/`main`. Hotfixes branch from `main` and back-merge down. Tag production releases on `main`.
 
 ---
 
