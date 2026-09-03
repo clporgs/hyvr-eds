@@ -3,7 +3,7 @@
  * Provides brand-connect (who/what/why/how-to-connect), partner CTA, social, legal,
  * newsletter opt-in, and locale switcher.
  */
-import { getMetadata, decorateIcons } from '../../scripts/aem.js';
+import { getMetadata, decorateIcons, fetchPlaceholders } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
   const footerPath = getMetadata('footer') || '/footer';
@@ -20,25 +20,27 @@ export default async function decorate(block) {
   // newsletter form (progressive enhancement over an authored link/section)
   const news = footer.querySelector('.newsletter, [data-newsletter]') || footer;
   if (footer.querySelector('.newsletter')) {
+    // Newsletter microcopy is placeholder-driven so the footer carries no hardcoded brand voice.
+    const ph = await fetchPlaceholders();
     const form = document.createElement('form');
     form.className = 'newsletter-form';
     form.setAttribute('novalidate', '');
     form.innerHTML = `
-      <label for="hyvr-news-email">Get drops & launches in your inbox</label>
+      <label for="hyvr-news-email">${ph.newsletterHeading || 'Get updates in your inbox'}</label>
       <div class="newsletter-row">
         <input id="hyvr-news-email" name="email" type="email" required autocomplete="email"
                placeholder="you@domain.com" aria-describedby="hyvr-news-help" />
-        <button class="button primary" type="submit">Join the Hyvr</button>
+        <button class="button primary" type="submit">${ph.newsletterCta || 'Subscribe'}</button>
       </div>
-      <p id="hyvr-news-help" class="newsletter-help">No spam. Unsubscribe anytime. We honour your consent choices.</p>`;
+      <p id="hyvr-news-help" class="newsletter-help">${ph.newsletterHelp || 'No spam. Unsubscribe anytime. We honour your consent choices.'}</p>`;
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const input = form.querySelector('input');
       if (!input.checkValidity()) { input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
       // In production: POST to a consent-aware endpoint / AEP; here we confirm inline.
-      form.innerHTML = '<p role="status" class="newsletter-ok">You\'re in. Watch your inbox for the next drop. 🛸</p>';
+      form.innerHTML = `<p role="status" class="newsletter-ok">${ph.newsletterSuccess || "You're in. Thanks for subscribing."}</p>`;
     });
-    news.querySelector('.newsletter').append(form);
+    news.append(form);
   }
 
   decorateIcons(footer);

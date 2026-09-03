@@ -6,12 +6,13 @@
  * Progressive enhancement: validates client-side, announces errors, and never blocks on JS
  * for the label/markup (the <form> action is set so it degrades to a normal POST).
  */
-import { readBlockConfig, pushToDataLayer } from '../../scripts/aem.js';
+import { readBlockConfig, pushToDataLayer, fetchPlaceholders } from '../../scripts/aem.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function decorate(block) {
+export default async function decorate(block) {
   const cfg = readBlockConfig(block);
+  const ph = await fetchPlaceholders();
   const kind = (cfg.kind || 'contact').toLowerCase();
   const heading = cfg.heading || 'Get in touch';
   const cta = cfg.cta || 'Send message';
@@ -92,7 +93,7 @@ export default function decorate(block) {
       const result = await resp.json();
       if (result.ok) {
         pushToDataLayer({ event: 'lead-submit', lead: { kind, email: data.email } });
-        form.innerHTML = `<div class="cf-success" role="status"><h2>Thanks, ${data.name.split(' ')[0]}! 🛸</h2><p>Your ${kind === 'partner' ? 'partnership enquiry' : 'message'} is on its way. We reply within one business day.</p></div>`;
+        form.innerHTML = `<div class="cf-success" role="status"><h2>Thanks, ${data.name.split(' ')[0]}!${ph.leadEmoji ? ` ${ph.leadEmoji}` : ''}</h2><p>Your ${kind === 'partner' ? 'partnership enquiry' : 'message'} is on its way. We reply within one business day.</p></div>`;
       } else {
         status.textContent = 'Something went wrong sending your message. Please try again or email hello@hyvr.example.';
         submit.disabled = false; submit.textContent = cta;
