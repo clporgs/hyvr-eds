@@ -1,0 +1,6 @@
+/* HYVR drop-badge */
+.drop-badge.block { background: linear-gradient(90deg, rgba(255,92,122,.16), transparent); border: 1px solid var(--hyvr-color-semantic-danger); border-radius: var(--hyvr-radius-pill); }
+.drop-badge-inner { display: flex; align-items: center; gap: var(--hyvr-space-4); flex-wrap: wrap; padding: var(--hyvr-space-3) var(--hyvr-space-5); }
+.drop-badge-inner strong { font-family: var(--hyvr-font-family-display); color: var(--hyvr-color-semantic-text-strong); }
+.drop-badge-timer { font-size: var(--hyvr-font-size-lg); color: var(--hyvr-color-semantic-danger); font-weight: 700; margin-left: auto; }
+@media (max-width: 599px) { .drop-badge-timer { margin-left: 0; } }

@@ -1,0 +1,20 @@
+/* HYVR product-card (also styles cards rendered by product-grid & comparison) */
+.product-card {
+  display: flex; flex-direction: column; background: var(--hyvr-color-semantic-surface);
+  border: 1px solid var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg);
+  overflow: hidden; transition: transform var(--hyvr-motion-duration-base) var(--hyvr-motion-easing-standard), border-color var(--hyvr-motion-duration-base), box-shadow var(--hyvr-motion-duration-base);
+}
+.product-card:hover { transform: translateY(-4px); border-color: var(--hyvr-color-semantic-accent); box-shadow: var(--hyvr-shadow-e2); }
+.product-card-media { position: relative; display: block; aspect-ratio: 4/3; background: radial-gradient(120% 100% at 50% 0%, rgba(177,75,255,.18), transparent 60%), var(--hyvr-color-semantic-bg-elevated); }
+.product-card-media img { width: 70%; height: 70%; margin: 15% auto; object-fit: contain; }
+.product-card-media .badge { position: absolute; top: var(--hyvr-space-3); left: var(--hyvr-space-3); background: rgba(10,10,15,.7); }
+.product-card-body { padding: var(--hyvr-space-4); display: flex; flex-direction: column; gap: var(--hyvr-space-2); flex: 1; }
+.product-card-cat { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-xs); text-transform: uppercase; letter-spacing: .08em; color: var(--hyvr-color-semantic-text-muted); margin: 0; }
+.product-card-title { font-size: var(--hyvr-font-size-lg); margin: 0; }
+.product-card-title a { color: var(--hyvr-color-semantic-text-strong); }
+.product-card-title a:hover { color: var(--hyvr-color-semantic-primary); text-decoration: none; }
+.product-card-summary { font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text-muted); margin: 0; flex: 1; }
+.product-card-meta { display: flex; align-items: center; gap: var(--hyvr-space-3); flex-wrap: wrap; margin-top: var(--hyvr-space-2); }
+.product-card-price { font-family: var(--hyvr-font-family-display); font-weight: 700; font-size: var(--hyvr-font-size-xl); color: var(--hyvr-color-semantic-text-strong); }
+.product-card-rating { font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-warning); }
+.product-card-cta { margin-top: var(--hyvr-space-3); justify-content: center; }

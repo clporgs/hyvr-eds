@@ -1,0 +1,65 @@
+[
+  {
+    "id": "hero",
+    "fields": [
+      { "component": "reference", "name": "image", "label": "Background image", "multi": false },
+      { "component": "text", "name": "imageAlt", "label": "Image alt text", "value": "" },
+      { "component": "richtext", "name": "text", "label": "Heading & copy", "valueType": "string" }
+    ]
+  },
+  {
+    "id": "product-hero",
+    "fields": [
+      { "component": "reference", "name": "image", "label": "Product image" },
+      { "component": "text", "name": "title", "label": "Product name", "required": true },
+      { "component": "text", "name": "category", "label": "Category / brand" },
+      { "component": "number", "name": "price", "label": "Price" },
+      { "component": "select", "name": "currency", "label": "Currency", "options": [ { "name": "USD", "value": "USD" }, { "name": "EUR", "value": "EUR" }, { "name": "GBP", "value": "GBP" } ] },
+      { "component": "select", "name": "availability", "label": "Availability", "options": [ { "name": "In stock", "value": "InStock" }, { "name": "Pre-order", "value": "PreOrder" }, { "name": "Sold out", "value": "OutOfStock" } ] },
+      { "component": "number", "name": "rating", "label": "Rating (0–5)" },
+      { "component": "richtext", "name": "summary", "label": "Summary" }
+    ]
+  },
+  {
+    "id": "product-grid",
+    "fields": [
+      { "component": "text", "name": "category", "label": "Filter by category (optional)" },
+      { "component": "text", "name": "tag", "label": "Filter by tag (optional)" },
+      { "component": "number", "name": "limit", "label": "Max products (0 = all)", "value": 0 }
+    ]
+  },
+  {
+    "id": "product-filter",
+    "fields": [ { "component": "text", "name": "note", "label": "Facets are generated automatically from the product index", "readonly": true } ]
+  },
+  {
+    "id": "stats",
+    "fields": [ { "component": "text", "name": "note", "label": "Add one row per stat: value | label", "readonly": true } ]
+  },
+  {
+    "id": "quote",
+    "fields": [
+      { "component": "richtext", "name": "quote", "label": "Quote", "required": true },
+      { "component": "text", "name": "attribution", "label": "Attribution" }
+    ]
+  },
+  {
+    "id": "community-cta",
+    "fields": [ { "component": "richtext", "name": "text", "label": "Heading, copy & CTAs" } ]
+  },
+  {
+    "id": "contact-form",
+    "fields": [
+      { "component": "select", "name": "kind", "label": "Form kind", "value": "contact", "options": [ { "name": "Contact", "value": "contact" }, { "name": "Lead", "value": "lead" }, { "name": "Partner", "value": "partner" }, { "name": "Support", "value": "support" } ] },
+      { "component": "text", "name": "heading", "label": "Heading", "value": "Get in touch" },
+      { "component": "text", "name": "cta", "label": "Button label", "value": "Send message" }
+    ]
+  },
+  {
+    "id": "drop-badge",
+    "fields": [
+      { "component": "text", "name": "headline", "label": "Drop headline" },
+      { "component": "text", "name": "endsAt", "label": "Ends at (ISO 8601)" }
+    ]
+  }
+]

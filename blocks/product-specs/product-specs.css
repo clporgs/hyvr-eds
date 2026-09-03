@@ -1,0 +1,7 @@
+/* HYVR product-specs */
+.product-specs-table { width: 100%; border-collapse: collapse; font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-sm); }
+.product-specs-table caption { text-align: left; font-family: var(--hyvr-font-family-display); font-size: var(--hyvr-font-size-xl); color: var(--hyvr-color-semantic-text-strong); margin-bottom: var(--hyvr-space-4); }
+.product-specs-table th, .product-specs-table td { text-align: left; padding: var(--hyvr-space-3) var(--hyvr-space-4); border-bottom: 1px solid var(--hyvr-color-semantic-border); vertical-align: top; }
+.product-specs-table tbody th[scope="row"] { color: var(--hyvr-color-semantic-text-muted); font-weight: 400; width: 40%; }
+.product-specs-table td { color: var(--hyvr-color-semantic-text-strong); }
+.product-specs-group th { background: var(--hyvr-color-semantic-surface); color: var(--hyvr-color-semantic-primary); text-transform: uppercase; letter-spacing: .08em; font-size: var(--hyvr-font-size-xs); border-bottom: 2px solid var(--hyvr-color-semantic-accent); }

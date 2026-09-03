@@ -1,0 +1,22 @@
+/* HYVR contact-form */
+.contact-form.block { max-width: 560px; }
+.contact-form-el { display: grid; gap: var(--hyvr-space-4); background: var(--hyvr-color-semantic-surface); border: 1px solid var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg); padding: var(--hyvr-space-6); }
+.contact-form-heading { margin: 0; font-size: var(--hyvr-font-size-2xl); }
+.cf-field { display: grid; gap: var(--hyvr-space-2); }
+.cf-field label { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-xs); text-transform: uppercase; letter-spacing: .08em; color: var(--hyvr-color-semantic-text-muted); }
+.cf-field input, .cf-field textarea {
+  min-height: 44px; padding: var(--hyvr-space-3); border-radius: var(--hyvr-radius-md);
+  border: 1px solid var(--hyvr-color-semantic-border-strong); background: var(--hyvr-color-semantic-bg-elevated);
+  color: var(--hyvr-color-semantic-text); font-family: var(--hyvr-font-family-body); font-size: var(--hyvr-font-size-base); width: 100%;
+}
+.cf-field textarea { resize: vertical; }
+.cf-field input[aria-invalid="true"], .cf-field textarea[aria-invalid="true"] { border-color: var(--hyvr-color-semantic-danger); }
+.cf-error { color: var(--hyvr-color-semantic-danger); font-size: var(--hyvr-font-size-sm); margin: 0; }
+.cf-consent label { display: flex; gap: var(--hyvr-space-2); align-items: flex-start; text-transform: none; letter-spacing: normal; font-family: var(--hyvr-font-family-body); font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text); }
+.cf-consent input { min-height: auto; width: auto; margin-top: 3px; accent-color: var(--hyvr-color-semantic-primary); }
+.cf-consent a { color: var(--hyvr-color-semantic-link); }
+.cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cf-status { color: var(--hyvr-color-semantic-danger); font-size: var(--hyvr-font-size-sm); margin: 0; min-height: 1.2em; }
+.cf-success { text-align: center; padding: var(--hyvr-space-5); }
+.cf-success h2 { color: var(--hyvr-color-semantic-primary); }
+.cf-submit { justify-self: start; }

@@ -1,0 +1,7 @@
+/* HYVR product-grid */
+.product-grid-status { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text-muted); margin: 0 0 var(--hyvr-space-4); }
+.product-grid-items {
+  display: grid; gap: var(--hyvr-space-5);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.product-grid-empty { grid-column: 1 / -1; padding: var(--hyvr-space-7); text-align: center; color: var(--hyvr-color-semantic-text-muted); border: 1px dashed var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg); }

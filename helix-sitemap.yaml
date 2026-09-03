@@ -1,0 +1,12 @@
+# Sitemap generation for SEO / GEO / AEO discoverability (Req 6).
+version: 1
+sitemaps:
+  default:
+    origin: https://www.hyvr.example
+    source: /query-index.json
+    destination: /sitemap.xml
+    lastmod: lastModified
+  editorial:
+    origin: https://www.hyvr.example
+    source: /editorial-index.json
+    destination: /sitemap-editorial.xml

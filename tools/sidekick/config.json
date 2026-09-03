@@ -1,0 +1,12 @@
+{
+  "$comment": "AEM Sidekick config — the author toolbar for preview/publish and custom plugins.",
+  "project": "HYVR",
+  "host": "www.hyvr.example",
+  "previewHost": "preview.hyvr.example",
+  "liveHost": "live.hyvr.example",
+  "plugins": [
+    { "id": "products", "title": "Product Index", "environments": ["preview"], "url": "/query-index.json" },
+    { "id": "tokens", "title": "Design Tokens", "environments": ["edit"], "url": "https://tokens.hyvr.example" },
+    { "id": "a11y", "title": "A11y Check", "environments": ["preview"], "url": "https://a11y.hyvr.example/?url={{contentSourceUrl}}" }
+  ]
+}

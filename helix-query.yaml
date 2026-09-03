@@ -1,0 +1,58 @@
+# Defines the searchable, machine-consumable product index that aem.live generates
+# and serves at /query-index.json. This index powers product-grid, product-filter,
+# and comparison, and is directly consumable by AI/answer engines (Req 4).
+version: 1
+
+indices:
+  products:
+    include:
+      - '/product/**'
+    exclude:
+      - '/product/drafts/**'
+    target: /query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, 'content')
+      image:
+        select: head > meta[property="og:image"]
+        value: attribute(el, 'content')
+      category:
+        select: head > meta[name="category"]
+        value: attribute(el, 'content')
+      platform:
+        select: head > meta[name="platform"]
+        value: attribute(el, 'content')
+      brand:
+        select: head > meta[name="brand"]
+        value: attribute(el, 'content')
+      price:
+        select: head > meta[name="price"]
+        value: attribute(el, 'content')
+      currency:
+        select: head > meta[name="currency"]
+        value: attribute(el, 'content')
+      availability:
+        select: head > meta[name="availability"]
+        value: attribute(el, 'content')
+      rating:
+        select: head > meta[name="rating"]
+        value: attribute(el, 'content')
+      fov:
+        select: head > meta[name="fov"]
+        value: attribute(el, 'content')
+      refresh:
+        select: head > meta[name="refresh"]
+        value: attribute(el, 'content')
+      resolution:
+        select: head > meta[name="resolution"]
+        value: attribute(el, 'content')
+      tags:
+        select: head > meta[name="tags"]
+        value: attribute(el, 'content')
+      summary:
+        select: head > meta[name="description"]
+        value: attribute(el, 'content')
+      lastModified:
+        select: none
+        value: parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')

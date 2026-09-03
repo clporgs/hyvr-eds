@@ -1,0 +1,9 @@
+/* HYVR columns */
+.columns.block > div { display: grid; gap: var(--hyvr-space-6); }
+.columns.block > div > div { align-self: center; }
+.columns-img-col img { width: 100%; border-radius: var(--hyvr-radius-lg); }
+@media (min-width: 900px) {
+  .columns-2-cols > div { grid-template-columns: 1fr 1fr; }
+  .columns-3-cols > div { grid-template-columns: repeat(3, 1fr); }
+  .columns.block > div > .columns-img-col { align-self: stretch; }
+}

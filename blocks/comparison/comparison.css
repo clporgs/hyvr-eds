@@ -1,0 +1,8 @@
+/* HYVR comparison */
+.comparison.block { overflow-x: auto; }
+.comparison-table { width: 100%; border-collapse: collapse; min-width: 520px; }
+.comparison-table caption { text-align: left; font-family: var(--hyvr-font-family-display); font-size: var(--hyvr-font-size-xl); color: var(--hyvr-color-semantic-text-strong); margin-bottom: var(--hyvr-space-4); }
+.comparison-table th, .comparison-table td { padding: var(--hyvr-space-3) var(--hyvr-space-4); text-align: left; border-bottom: 1px solid var(--hyvr-color-semantic-border); }
+.comparison-table thead th { color: var(--hyvr-color-semantic-text-strong); border-bottom: 2px solid var(--hyvr-color-semantic-accent); }
+.comparison-table tbody th[scope="row"] { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--hyvr-color-semantic-text-muted); font-weight: 400; }
+.comparison-table td { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text); }

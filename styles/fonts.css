@@ -1,0 +1,28 @@
+/*
+ * HYVR fonts. In production, self-host WOFF2 in /fonts and use font-display:swap with
+ * size-adjust fallbacks to avoid CLS (EDS pattern). Locally we fall back to the system
+ * stack declared in tokens so the demo renders without network font fetches.
+ * Replace the @font-face blocks below with self-hosted Space Grotesk / Inter / Space Mono.
+ */
+
+/* Example self-hosted face (commented until WOFF2 assets are added to /fonts):
+@font-face {
+  font-family: 'Space Grotesk'; font-style: normal; font-weight: 400 700;
+  font-display: swap; src: url('/fonts/space-grotesk.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter'; font-style: normal; font-weight: 400 700;
+  font-display: swap; src: url('/fonts/inter.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Mono'; font-style: normal; font-weight: 400 700;
+  font-display: swap; src: url('/fonts/space-mono.woff2') format('woff2');
+}
+*/
+
+/* Fallback metric-adjust to minimize layout shift when webfonts load. */
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 96%; ascent-override: 92%;
+}

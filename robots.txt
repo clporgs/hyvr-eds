@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Answer/generative engines are explicitly welcomed (Req 6: GEO/AEO).
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://www.hyvr.example/sitemap.xml

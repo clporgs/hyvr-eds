@@ -1,0 +1,7 @@
+/* HYVR breadcrumb */
+.breadcrumb nav ol { list-style: none; display: flex; flex-wrap: wrap; gap: var(--hyvr-space-2); padding: 0; margin: 0; font-size: var(--hyvr-font-size-sm); font-family: var(--hyvr-font-family-mono); }
+.breadcrumb nav li { color: var(--hyvr-color-semantic-text-muted); display: inline-flex; gap: var(--hyvr-space-2); }
+.breadcrumb nav li:not(:last-child)::after { content: '/'; color: var(--hyvr-color-semantic-border-strong); }
+.breadcrumb nav a { color: var(--hyvr-color-semantic-text-muted); }
+.breadcrumb nav a:hover { color: var(--hyvr-color-semantic-primary); }
+.breadcrumb nav [aria-current="page"] { color: var(--hyvr-color-semantic-text-strong); }

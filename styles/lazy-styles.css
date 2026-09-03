@@ -1,0 +1,29 @@
+/*
+ * HYVR lazy styles — loaded after first paint. Non-critical polish: consent banner,
+ * back-to-top, print styles, and reduced-motion-safe ambient effects.
+ */
+
+/* consent banner (rendered by header/consent seam) */
+.hyvr-consent {
+  position: fixed; inset: auto var(--hyvr-space-4) var(--hyvr-space-4); z-index: var(--hyvr-z-toast);
+  max-width: 520px; margin-left: auto; background: var(--hyvr-color-semantic-surface);
+  border: 1px solid var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg);
+  padding: var(--hyvr-space-5); box-shadow: var(--hyvr-shadow-e2);
+}
+.hyvr-consent p { color: var(--hyvr-color-semantic-text-muted); font-size: var(--hyvr-font-size-sm); }
+.hyvr-consent .actions { display: flex; gap: var(--hyvr-space-3); flex-wrap: wrap; }
+
+/* ambient prism glow, disabled under reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .hero.block::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: var(--hyvr-color-gradient-prism); opacity: .12; mix-blend-mode: screen;
+    animation: hyvr-drift 12s ease-in-out infinite alternate;
+  }
+  @keyframes hyvr-drift { from { transform: translate3d(-2%, -1%, 0) scale(1.02); } to { transform: translate3d(2%, 1%, 0) scale(1.06); } }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  header, footer, .hyvr-consent, .product-filter { display: none !important; }
+}

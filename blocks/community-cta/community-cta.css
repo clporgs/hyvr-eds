@@ -1,0 +1,10 @@
+/* HYVR community-cta */
+.community-cta.block {
+  text-align: center; padding: var(--hyvr-space-8) var(--hyvr-space-5);
+  border-radius: var(--hyvr-radius-lg); position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(177,75,255,.18), rgba(0,229,168,.12)), var(--hyvr-color-semantic-surface);
+  border: 1px solid var(--hyvr-color-semantic-border);
+}
+.community-cta.block h2 { font-size: var(--hyvr-font-size-3xl); }
+.community-cta.block p { color: var(--hyvr-color-semantic-text); max-width: 60ch; margin-inline: auto; }
+.community-cta.block .button-container { display: inline-block; margin: var(--hyvr-space-3) var(--hyvr-space-2) 0; }

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "cards",
+    "components": ["text", "image", "button"]
+  },
+  {
+    "id": "columns",
+    "components": ["text", "image", "button", "hero", "stats", "quote"]
+  },
+  {
+    "id": "section",
+    "components": [
+      "hero", "cards", "columns", "stats", "quote", "community-cta",
+      "product-hero", "product-specs", "product-gallery", "product-grid",
+      "product-filter", "comparison", "drop-badge", "breadcrumb", "contact-form"
+    ]
+  }
+]

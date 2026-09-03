@@ -1,0 +1,5 @@
+/* HYVR stats */
+.stats.block { display: grid; gap: var(--hyvr-space-5); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); text-align: center; }
+.stats .stat { display: grid; gap: var(--hyvr-space-2); padding: var(--hyvr-space-5); border-radius: var(--hyvr-radius-lg); background: var(--hyvr-color-semantic-surface); border: 1px solid var(--hyvr-color-semantic-border); }
+.stats .stat-value { font-family: var(--hyvr-font-family-display); font-weight: 700; font-size: var(--hyvr-font-size-4xl); background: var(--hyvr-color-gradient-prism); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stats .stat-label { font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text-muted); }

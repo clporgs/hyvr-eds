@@ -1,0 +1,5 @@
+/* HYVR quote */
+.quote.block figure { margin: 0; max-width: 42ch; }
+.quote.block blockquote { font-family: var(--hyvr-font-family-display); font-size: var(--hyvr-font-size-2xl); line-height: var(--hyvr-font-lineheight-snug); color: var(--hyvr-color-semantic-text-strong); margin: 0 0 var(--hyvr-space-3); position: relative; padding-left: var(--hyvr-space-5); border-left: 3px solid transparent; border-image: var(--hyvr-color-gradient-prism) 1; }
+.quote.block figcaption { font-family: var(--hyvr-font-family-mono); font-size: var(--hyvr-font-size-sm); color: var(--hyvr-color-semantic-text-muted); padding-left: var(--hyvr-space-5); }
+.quote.block.center figure { margin-inline: auto; text-align: center; }

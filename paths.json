@@ -1,0 +1,10 @@
+{
+  "$comment": "URL path mappings for Edge Delivery. Keeps friendly, SEO-clean URLs decoupled from the authoring folder structure in DA.live.",
+  "mappings": [
+    "/products:/plp",
+    "/product/(.*):/product/$1"
+  ],
+  "includes": [
+    "/"
+  ]
+}

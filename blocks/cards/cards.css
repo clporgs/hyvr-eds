@@ -1,0 +1,7 @@
+/* HYVR cards (generic) */
+.cards.block ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--hyvr-space-5); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.cards.block li { background: var(--hyvr-color-semantic-surface); border: 1px solid var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg); overflow: hidden; }
+.cards-card-image img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+.cards-card-body { padding: var(--hyvr-space-5); }
+.cards-card-body h3 { font-size: var(--hyvr-font-size-xl); }
+.cards-card-body p { color: var(--hyvr-color-semantic-text-muted); margin-bottom: 0; }

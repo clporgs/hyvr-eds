@@ -1,0 +1,28 @@
+{
+  "name": "hyvr-eds",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HYVR — Blueprint 1: AEM Edge Delivery Services + DA.live reference implementation",
+  "type": "module",
+  "scripts": {
+    "serve": "node tools/server.mjs",
+    "up": "aem up",
+    "tokens": "node ../design-system/scripts/build-tokens.mjs --out styles && node -e \"import('node:fs').then(fs=>fs.copyFileSync('styles/tokens.css','styles/tokens.css'))\"",
+    "assets": "node tools/generate-placeholders.mjs",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
+    "test": "node --test test/tokens.test.mjs test/content.test.mjs test/lead.test.mjs",
+    "test:a11y": "pa11y-ci --sitemap http://localhost:3001/sitemap.xml || echo 'run against a running preview'",
+    "psi": "node tools/psi-check.mjs"
+  },
+  "devDependencies": {
+    "@adobe/aem-cli": "^16.10.0",
+    "eslint": "^9.13.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.0",
+    "pa11y-ci": "^3.1.0"
+  },
+  "engines": { "node": ">=22" },
+  "license": "UNLICENSED"
+}

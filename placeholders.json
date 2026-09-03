@@ -1,0 +1,11 @@
+{
+  "total": 6, "offset": 0, "limit": 6,
+  "data": [
+    { "Key": "addToCart", "Text": "Add to cart" },
+    { "Key": "preOrder", "Text": "Pre-order now" },
+    { "Key": "inStock", "Text": "In stock" },
+    { "Key": "newsletterCta", "Text": "Join the Hyvr" },
+    { "Key": "searchPlaceholder", "Text": "Search headsets, controllers…" },
+    { "Key": "consentMessage", "Text": "We use cookies for analytics and personalization. You choose." }
+  ]
+}

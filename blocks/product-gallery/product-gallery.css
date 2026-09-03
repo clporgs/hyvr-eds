@@ -1,0 +1,8 @@
+/* HYVR product-gallery */
+.product-gallery.block { display: grid; gap: var(--hyvr-space-4); }
+.gallery-main { background: var(--hyvr-color-semantic-surface); border: 1px solid var(--hyvr-color-semantic-border); border-radius: var(--hyvr-radius-lg); aspect-ratio: 4/3; display: grid; place-items: center; padding: var(--hyvr-space-5); }
+.gallery-main img { max-width: 82%; max-height: 82%; object-fit: contain; }
+.gallery-thumbs { display: flex; gap: var(--hyvr-space-3); flex-wrap: wrap; }
+.gallery-thumb { width: 72px; height: 72px; padding: var(--hyvr-space-2); border-radius: var(--hyvr-radius-md); border: 1px solid var(--hyvr-color-semantic-border); background: var(--hyvr-color-semantic-bg-elevated); cursor: pointer; }
+.gallery-thumb[aria-selected="true"] { border-color: var(--hyvr-color-semantic-primary); box-shadow: var(--hyvr-shadow-glow-volt); }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: contain; }
