@@ -4,11 +4,14 @@
  * media panel and an accessible buy box. Buy actions are stubbed (commerce integration
  * is documented gap G-BP1-4) but wired to the data layer for analytics.
  */
-import { pushToDataLayer, getMetadata } from '../../scripts/aem.js';
+import { pushToDataLayer, getMetadata, fetchPlaceholders } from '../../scripts/aem.js';
 
 const fmt = (p, c = 'USD') => (p ? new Intl.NumberFormat('en-US', { style: 'currency', currency: c, maximumFractionDigits: 0 }).format(Number(p)) : '');
 
-export default function decorate(block) {
+export default async function decorate(block) {
+  // Microcopy comes from placeholders.json so the buy box is brand/vertical-neutral
+  // (no domain voice hardcoded in the block). Generic fallbacks keep it working with none.
+  const ph = await fetchPlaceholders();
   const data = {};
   [...block.children].forEach((row) => {
     const k = row.children[0]?.textContent?.trim().toLowerCase().replace(/\s+/g, '-');
@@ -36,20 +39,20 @@ export default function decorate(block) {
     <h1 class="product-hero-title">${data.title}</h1>
     ${data.rating ? `<p class="product-hero-rating"><span aria-hidden="true">★</span> ${data.rating} <span class="product-hero-reviews">(${data.reviews || '0'} reviews)</span></p>` : ''}
     <p class="product-hero-price">${fmt(data.price, data.currency)}</p>
-    <p class="product-hero-avail badge ${inStock ? 'new' : 'drop'}">${inStock ? 'In stock — ships in 48h' : (data.availability === 'PreOrder' ? 'Pre-order' : 'Sold out')}</p>
+    <p class="product-hero-avail badge ${inStock ? 'new' : 'drop'}">${inStock ? (ph.availInStock || 'In stock') : (data.availability === 'PreOrder' ? (ph.availPreorder || 'Pre-order') : (ph.availSold || 'Sold out'))}</p>
     ${data.summary ? `<p class="product-hero-summary">${data.summary}</p>` : ''}
     ${Array.isArray(data.specs) && data.specs.length ? `<ul class="product-hero-keyspecs">${data.specs.slice(0, 4).map((s) => `<li>${s}</li>`).join('')}</ul>` : ''}
     <div class="product-hero-actions">
       <button class="button primary product-hero-add" ${inStock || data.availability === 'PreOrder' ? '' : 'disabled'}>
-        ${data.availability === 'PreOrder' ? 'Pre-order now' : 'Add to cart'}
+        ${data.availability === 'PreOrder' ? (ph.ctaPreorder || 'Pre-order now') : (ph.ctaBuy || 'Add to cart')}
       </button>
-      <button class="button secondary product-hero-wish" aria-label="Save ${data.title} to wishlist">♡ Save</button>
+      <button class="button secondary product-hero-wish" aria-label="${ph.ctaSave || 'Save'} — ${data.title}">♡ ${ph.ctaSave || 'Save'}</button>
     </div>
-    <p class="product-hero-reassure">Free 30-day returns · 2-year HYVR warranty · Carbon-neutral shipping</p>`;
+    ${ph.reassurance ? `<p class="product-hero-reassure">${ph.reassurance}</p>` : ''}`;
 
   buy.querySelector('.product-hero-add').addEventListener('click', (e) => {
     pushToDataLayer({ event: 'add-to-cart', product: { name: data.title, price: data.price, category: data.category } });
-    const b = e.currentTarget; const t = b.textContent; b.textContent = 'Added ✓'; b.disabled = true;
+    const b = e.currentTarget; const t = b.textContent; b.textContent = ph.ctaAdded || 'Added ✓'; b.disabled = true;
     setTimeout(() => { b.textContent = t; b.disabled = false; }, 1600);
   });
 
