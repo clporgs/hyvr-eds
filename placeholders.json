@@ -1,11 +1,19 @@
 {
-  "total": 6, "offset": 0, "limit": 6,
+  "total": 14, "offset": 0, "limit": 14,
   "data": [
-    { "Key": "addToCart", "Text": "Add to cart" },
-    { "Key": "preOrder", "Text": "Pre-order now" },
-    { "Key": "inStock", "Text": "In stock" },
-    { "Key": "newsletterCta", "Text": "Join the Hyvr" },
-    { "Key": "searchPlaceholder", "Text": "Search headsets, controllers…" },
-    { "Key": "consentMessage", "Text": "We use cookies for analytics and personalization. You choose." }
+    { "Key": "Newsletter Heading", "Text": "Get drops & launches in your inbox" },
+    { "Key": "Newsletter Cta", "Text": "Join the Hyvr" },
+    { "Key": "Newsletter Help", "Text": "No spam. Unsubscribe anytime. We honour your consent choices." },
+    { "Key": "Newsletter Success", "Text": "You're in. Watch your inbox for the next drop. 🛸" },
+    { "Key": "Avail In Stock", "Text": "In stock — ships in 48h" },
+    { "Key": "Avail Preorder", "Text": "Pre-order" },
+    { "Key": "Avail Sold", "Text": "Sold out" },
+    { "Key": "Cta Buy", "Text": "Add to cart" },
+    { "Key": "Cta Preorder", "Text": "Pre-order now" },
+    { "Key": "Cta Added", "Text": "Added ✓" },
+    { "Key": "Cta Save", "Text": "Save" },
+    { "Key": "Reassurance", "Text": "Free 30-day returns · 2-year warranty · Carbon-neutral shipping" },
+    { "Key": "Lead Emoji", "Text": "🛸" },
+    { "Key": "Search Placeholder", "Text": "Search headsets, controllers…" }
   ]
 }
