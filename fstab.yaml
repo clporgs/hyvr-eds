@@ -1,9 +1,9 @@
 # Edge Delivery Services content mount.
 # Blueprint 1 uses DA.live (document authoring) as the content source. The mountpoint
 # below is illustrative; provisioning a real DA.live org + repo is documented gap G-BP1-1.
-# Authors edit content at da.live/#/hyvr/hyvr-eds and preview/publish via the AEM Sidekick.
+# Authors edit content at da.live/#/clporgs/hyvr-eds and preview/publish via the AEM Sidekick.
 mountpoints:
-  /: https://content.da.live/hyvr/hyvr-eds/
+  /: https://content.da.live/clporgs/hyvr-eds/
 
 # Product master data can alternatively be mounted from a spreadsheet/DAM-backed source:
 # folders:
