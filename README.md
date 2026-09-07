@@ -82,4 +82,4 @@ blueprint-1-eds-dalive/
 
 See the program root for the [brand identity](../docs/00-brand/brand-identity.md),
 [when to choose which blueprint](../docs/01-blueprint-comparison/when-to-select.md),
-and the [requirements-traceability matrix](../docs/requirements-traceability-matrix.md)
+and the [requirements-traceability matrix](../docs/requirements-traceability-matrix.md).
