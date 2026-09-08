@@ -1,10 +1,25 @@
 {
-  "$comment": "AEM Sidekick config — the author toolbar for preview/publish and custom plugins.",
+  "$comment": "AEM Sidekick config — author toolbar (preview/publish) + plugins. The `library` plugin surfaces the DA.live/Sidekick BLOCK LIBRARY (tools/sidekick/library.json → /block-library/*), giving authors an insertable block palette. The `assets` plugin opens the AEM Assets selector (needs an Assets tenant — gap G-BP1-2; set the host below). Hosts are illustrative until DA.live + Assets are provisioned.",
   "project": "HYVR",
   "host": "www.hyvr.example",
   "previewHost": "preview.hyvr.example",
   "liveHost": "live.hyvr.example",
   "plugins": [
+    {
+      "id": "library",
+      "title": "Library",
+      "environments": ["edit"],
+      "url": "/tools/sidekick/library.json",
+      "isPalette": true,
+      "includePaths": ["**.docx**"]
+    },
+    {
+      "id": "assets",
+      "title": "Assets",
+      "environments": ["edit"],
+      "url": "https://delivery-<program>-<env>.adobeaemcloud.com/assets/select",
+      "isPalette": true
+    },
     { "id": "products", "title": "Product Index", "environments": ["preview"], "url": "/query-index.json" },
     { "id": "tokens", "title": "Design Tokens", "environments": ["edit"], "url": "https://tokens.hyvr.example" },
     { "id": "a11y", "title": "A11y Check", "environments": ["preview"], "url": "https://a11y.hyvr.example/?url={{contentSourceUrl}}" }
