@@ -1,0 +1,38 @@
+{
+  "group": "HYVR — Commerce",
+  "definitions": [
+    {
+      "title": "Drop Badge",
+      "id": "drop-badge",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Drop Badge",
+              "model": "drop-badge"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "drop-badge",
+      "fields": [
+        {
+          "component": "text",
+          "name": "headline",
+          "label": "Drop headline"
+        },
+        {
+          "component": "text",
+          "name": "endsAt",
+          "label": "Ends at (ISO 8601)"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

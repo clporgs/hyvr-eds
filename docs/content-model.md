@@ -65,7 +65,7 @@ Authors write **documents** in DA.live. Each document maps to a page; **section 
 - **Table → block.** A table whose first cell names a block (e.g. `product-grid`, `comparison`) is decorated by the matching JS/CSS in `/blocks/{name}`.
 - **Auto-blocking.** Scripts synthesise blocks from plain content where a table would be redundant — e.g. a leading image + heading becomes a `hero`, and product pages auto-assemble `product-hero`/`product-specs` from metadata + content. This keeps documents clean and channel-neutral.
 - **Metadata table.** A `Metadata` block (key/value table) carries page metadata (§5) and the `template` selector.
-- **Governance via models** (`/models`): authoring is constrained by three artefacts consumed by DA.live:
+- **Governance via models** (root `component-*.json`, built from federated `blocks/*/_*.json`): authoring is constrained by three artefacts consumed by **Universal Editor** (the AEMaaCS crosswalk surface). DA.live gets its palette from the Sidekick block Library instead (`tools/sidekick/library.json`). Both surfaces are instrumented:
   - `component-definition.json` — which blocks may be inserted.
   - `component-models.json` — the fields each block exposes to authors (types, labels).
   - `component-filters.json` — which blocks are allowed in which containers/sections.
@@ -155,9 +155,9 @@ flowchart LR
   Q --> E["Emerging channels<br/>(in-headset, voice, kiosk)"]
 
   subgraph Governance
-    G1["/models component-definition"]
-    G2["/models component-models"]
-    G3["/models component-filters"]
+    G1["component-definition"]
+    G2["component-models"]
+    G3["component-filters"]
     T["../../design-system tokens.css<br/>(--hyvr-* dark-first)"]
   end
   G1 -.-> A
@@ -183,7 +183,7 @@ flowchart LR
 - **Ownership.** Product master data owned by merchandising; brand/editorial owned by marketing; Fragments (legal/CTAs) owned by their respective functions; blocks, tokens, and models owned by engineering/design-system.
 - **Review.** Content changes reviewed in DA.live; code and model changes reviewed via pull request with the automated quality gates in `test-strategy.md` (token-drift, lint, Lighthouse, pa11y, Playwright).
 - **Versioning — two-track:**
-  - **Code** (blocks, scripts, styles, `/models`, `helix-query.yaml`) versioned in **git**.
+  - **Code** (blocks, scripts, styles, root `component-*.json`, `helix-query.yaml`) versioned in **git**.
   - **Content** (documents, Fragments, metadata) versioned in **DA.live**.
 - **Design tokens** are governed centrally in `../../design-system`; the token-drift gate blocks any local divergence of `styles/tokens.css` from the generated source.
 - **Taxonomy changes** (new `category`/`platform` values) go through model review so PLP facets, JSON-LD, and feeds stay consistent.

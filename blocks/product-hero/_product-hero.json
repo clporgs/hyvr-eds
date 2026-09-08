@@ -1,0 +1,99 @@
+{
+  "group": "HYVR — Commerce",
+  "definitions": [
+    {
+      "title": "Product Hero",
+      "id": "product-hero",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Product Hero",
+              "model": "product-hero"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "product-hero",
+      "fields": [
+        {
+          "component": "reference",
+          "name": "image",
+          "label": "Product image"
+        },
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Product name",
+          "required": true
+        },
+        {
+          "component": "text",
+          "name": "category",
+          "label": "Category · brand"
+        },
+        {
+          "component": "number",
+          "name": "price",
+          "label": "Price"
+        },
+        {
+          "component": "select",
+          "name": "currency",
+          "label": "Currency",
+          "value": "USD",
+          "options": [
+            {
+              "name": "USD",
+              "value": "USD"
+            },
+            {
+              "name": "EUR",
+              "value": "EUR"
+            },
+            {
+              "name": "GBP",
+              "value": "GBP"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "availability",
+          "label": "Availability",
+          "value": "InStock",
+          "options": [
+            {
+              "name": "In stock",
+              "value": "InStock"
+            },
+            {
+              "name": "Pre-order",
+              "value": "PreOrder"
+            },
+            {
+              "name": "Sold out",
+              "value": "OutOfStock"
+            }
+          ]
+        },
+        {
+          "component": "number",
+          "name": "rating",
+          "label": "Rating (0–5)"
+        },
+        {
+          "component": "richtext",
+          "name": "summary",
+          "label": "Summary"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
