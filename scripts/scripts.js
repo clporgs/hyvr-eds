@@ -173,4 +173,15 @@ async function loadPage() {
   loadDelayed();
 }
 
+/**
+ * Universal Editor: load in-context editing support ONLY when a UE connection meta is present
+ * (injected by the content source — AEM crosswalk or DA.live). Zero cost on the delivered page.
+ * This makes UE editing available on BOTH surfaces; the author picks surface AND editor freely.
+ */
+if (getMetadata('urn:adobe:aue:system:aemconnection')
+  || getMetadata('urn:adobe:aue:system:daconnection')
+  || getMetadata('urn:adobe:aue:system:connection')) {
+  import('./editor-support.js');
+}
+
 loadPage();
