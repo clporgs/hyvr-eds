@@ -1,0 +1,157 @@
+{
+  ":names": [
+    "blocks",
+    "icons"
+  ],
+  ":type": "multi-sheet",
+  ":version": 3,
+  "blocks": {
+    "total": 15,
+    "offset": 0,
+    "limit": 15,
+    "data": [
+      {
+        "name": "Hero",
+        "path": "/block-library/hero",
+        "description": "Full-bleed hero with heading, copy and CTAs."
+      },
+      {
+        "name": "Cards",
+        "path": "/block-library/cards",
+        "description": "Grid of content cards (features, value props)."
+      },
+      {
+        "name": "Columns",
+        "path": "/block-library/columns",
+        "description": "Two-column text + media layout."
+      },
+      {
+        "name": "Stats",
+        "path": "/block-library/stats",
+        "description": "Animated KPI counters (value | label per row)."
+      },
+      {
+        "name": "Quote",
+        "path": "/block-library/quote",
+        "description": "Pull-quote / testimonial (quote row, attribution row)."
+      },
+      {
+        "name": "Community Cta",
+        "path": "/block-library/community-cta",
+        "description": "Brand-connect call-to-action band."
+      },
+      {
+        "name": "Drop Badge",
+        "path": "/block-library/drop-badge",
+        "description": "Limited-drop countdown (headline, ISO end datetime, CTA)."
+      },
+      {
+        "name": "Breadcrumb",
+        "path": "/block-library/breadcrumb",
+        "description": "Breadcrumb trail (auto-derives from the URL if left empty)."
+      },
+      {
+        "name": "Product Grid",
+        "path": "/block-library/product-grid",
+        "description": "Product listing grid from the query index (optional config rows: category, tag, limit)."
+      },
+      {
+        "name": "Product Filter",
+        "path": "/block-library/product-filter",
+        "description": "Faceted filter rail; pair with product-grid in a section styled \"shop\"."
+      },
+      {
+        "name": "Product Hero",
+        "path": "/block-library/product-hero",
+        "description": "PDP buy box (label | value rows)."
+      },
+      {
+        "name": "Product Specs",
+        "path": "/block-library/product-specs",
+        "description": "Structured spec table (single-cell row = group heading; two-cell row = name | value)."
+      },
+      {
+        "name": "Product Gallery",
+        "path": "/block-library/product-gallery",
+        "description": "Keyboard-accessible image gallery (one image per row)."
+      },
+      {
+        "name": "Comparison",
+        "path": "/block-library/comparison",
+        "description": "Side-by-side spec comparison (one product link per row)."
+      },
+      {
+        "name": "Contact Form",
+        "path": "/block-library/contact-form",
+        "description": "Contact / lead form (config rows: kind, heading, cta) → shared Resend service."
+      }
+    ]
+  },
+  "icons": {
+    "total": 15,
+    "offset": 0,
+    "limit": 15,
+    "data": [
+      {
+        "name": "account",
+        "path": "/icons/account.svg"
+      },
+      {
+        "name": "cart",
+        "path": "/icons/cart.svg"
+      },
+      {
+        "name": "discord",
+        "path": "/icons/discord.svg"
+      },
+      {
+        "name": "logo",
+        "path": "/icons/logo.svg"
+      },
+      {
+        "name": "ph-aurora",
+        "path": "/icons/ph-aurora.svg"
+      },
+      {
+        "name": "ph-echo",
+        "path": "/icons/ph-echo.svg"
+      },
+      {
+        "name": "ph-generic",
+        "path": "/icons/ph-generic.svg"
+      },
+      {
+        "name": "ph-glyph",
+        "path": "/icons/ph-glyph.svg"
+      },
+      {
+        "name": "ph-nova",
+        "path": "/icons/ph-nova.svg"
+      },
+      {
+        "name": "ph-photon",
+        "path": "/icons/ph-photon.svg"
+      },
+      {
+        "name": "ph-pulse",
+        "path": "/icons/ph-pulse.svg"
+      },
+      {
+        "name": "ph-rift",
+        "path": "/icons/ph-rift.svg"
+      },
+      {
+        "name": "ph-spectra",
+        "path": "/icons/ph-spectra.svg"
+      },
+      {
+        "name": "ph-vertex",
+        "path": "/icons/ph-vertex.svg"
+      },
+      {
+        "name": "search",
+        "path": "/icons/search.svg"
+      }
+    ]
+  }
+}

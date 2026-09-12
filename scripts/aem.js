@@ -263,6 +263,23 @@ export function buildBlock(blockName, content) {
   return blockEl;
 }
 
+/**
+ * Move Universal Editor / crosswalk instrumentation attributes from one element to another.
+ * Blocks that rebuild their DOM (e.g. cards, columns) must carry the `data-aue-*` /
+ * `data-richtext-*` attributes onto the new nodes, or in-context UE editing breaks. Blocks
+ * that decorate in place don't need this. No-op outside the editor (attributes absent).
+ */
+export function moveInstrumentation(from, to) {
+  if (!from || !to) return;
+  const attrs = [...from.attributes]
+    .map(({ nodeName }) => nodeName)
+    .filter((attr) => attr.startsWith('data-aue-') || attr.startsWith('data-richtext-'));
+  attrs.forEach((attr) => {
+    const v = from.getAttribute(attr);
+    if (v) { to.setAttribute(attr, v); from.removeAttribute(attr); }
+  });
+}
+
 export function decorateBlock(block) {
   const shortBlockName = block.classList[0];
   if (shortBlockName) {

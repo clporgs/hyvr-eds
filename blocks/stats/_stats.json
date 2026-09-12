@@ -1,0 +1,42 @@
+{
+  "group": "HYVR — Brand & Content",
+  "definitions": [
+    {
+      "title": "Stats",
+      "id": "stats",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Stats",
+              "model": "stats",
+              "filter": "stats"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "stats",
+      "fields": [
+        {
+          "component": "text",
+          "name": "note",
+          "label": "One row per stat: value | label",
+          "readonly": true
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "stats",
+      "components": [
+        "text"
+      ]
+    }
+  ]
+}

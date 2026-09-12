@@ -43,7 +43,8 @@ blueprint-1-eds-dalive/
 ├─ scripts/         aem.js (EDS runtime) · scripts.js (eager/lazy/delayed) · delayed.js (consent-gated martech)
 ├─ styles/          styles.css · tokens.css (generated) · fonts.css · lazy-styles.css
 ├─ blocks/          17 vanilla-JS blocks (see below)
-├─ models/          component-definition/models/filters.json (DA.live / Universal Editor authoring model)
+├─ component-*.json  UE/crosswalk authoring model (root; built from blocks/*/_*.json)
+├─ block-library/   DA.live Sidekick block Library example pages (+ tools/sidekick/library.json)
 ├─ icons/           generated on-brand SVGs (logo, UI, product placeholders)
 ├─ content/         sample authored content + query-index source
 ├─ tools/           server.mjs (local preview) · generate-placeholders.mjs · sidekick config

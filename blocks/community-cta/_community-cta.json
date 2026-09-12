@@ -1,0 +1,33 @@
+{
+  "group": "HYVR — Brand & Content",
+  "definitions": [
+    {
+      "title": "Community Cta",
+      "id": "community-cta",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Community Cta",
+              "model": "community-cta"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "community-cta",
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "text",
+          "label": "Heading, copy & CTAs"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
