@@ -1,0 +1,65 @@
+[
+  {
+    "id": "section",
+    "components": [
+      "hero",
+      "cards",
+      "columns",
+      "stats",
+      "quote",
+      "community-cta",
+      "contact-form",
+      "breadcrumb",
+      "product-hero",
+      "product-specs",
+      "product-gallery",
+      "product-grid",
+      "product-filter",
+      "comparison",
+      "drop-badge"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": [
+      "text",
+      "image",
+      "button"
+    ]
+  },
+  {
+    "id": "columns",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "hero",
+      "stats",
+      "quote"
+    ]
+  },
+  {
+    "id": "stats",
+    "components": [
+      "text"
+    ]
+  },
+  {
+    "id": "product-specs",
+    "components": [
+      "text"
+    ]
+  },
+  {
+    "id": "product-gallery",
+    "components": [
+      "image"
+    ]
+  },
+  {
+    "id": "comparison",
+    "components": [
+      "text"
+    ]
+  }
+]

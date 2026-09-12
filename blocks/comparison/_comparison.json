@@ -1,0 +1,42 @@
+{
+  "group": "HYVR — Commerce",
+  "definitions": [
+    {
+      "title": "Comparison",
+      "id": "comparison",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Comparison",
+              "model": "comparison",
+              "filter": "comparison"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "comparison",
+      "fields": [
+        {
+          "component": "text",
+          "name": "note",
+          "label": "One product link per row",
+          "readonly": true
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "comparison",
+      "components": [
+        "text"
+      ]
+    }
+  ]
+}

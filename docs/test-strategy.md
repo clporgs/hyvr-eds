@@ -104,7 +104,7 @@ A block or feature is Done when:
 7. **Lint-clean** — eslint 0, stylelint 0.
 8. **Structured/semantic** — emits correct metadata and, where applicable, JSON-LD.
 9. **e2e covered** — journey step added to `test/e2e.spec.mjs` when user-facing.
-10. **Documented** — authoring model reflected in `/models` (definition/models/filters) as needed.
+10. **Documented** — authoring model reflected in root `component-*.json` (from per-block `blocks/*/_*.json`).
 
 ---
 

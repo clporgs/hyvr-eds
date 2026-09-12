@@ -1,0 +1,12 @@
+{
+  "$comment": "Template for the DA.live project config. Paste these values into DA Settings → Config for the hyvr-eds site (DA stores config on its side; this file is the source-controlled record). Replace <program>/<env>/<tenant> with your provisioned Adobe values. AEM Assets keys require an Assets tenant (gap G-BP1-2).",
+  "library": {
+    "blocks": "/tools/sidekick/library.json"
+  },
+  "assets": {
+    "$comment": "Connects DA's asset selector to your AEM Assets (Dynamic Media) repository so authors pick from the DAM and links use the delivery renditions the blocks expect (?width=&format=webply).",
+    "repositoryId": "delivery-<program>-<env>.adobeaemcloud.com",
+    "aemTierType": "delivery",
+    "imageUrlPattern": "https://delivery-<program>-<env>.adobeaemcloud.com/adobe/assets/urn:aaid:aem:<asset-id>/original/as/{name}?width={width}&format=webply&optimize=medium"
+  }
+}

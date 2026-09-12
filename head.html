@@ -6,3 +6,13 @@
 <script src="/scripts/scripts.js" type="module"></script>
 <link rel="stylesheet" href="/styles/fonts.css">
 <link rel="stylesheet" href="/styles/styles.css">
+<!-- Universal Editor connection — enables in-context UE editing on EITHER surface. The content
+     source injects the live value per environment (do NOT hardcode a prod URL in the repo):
+       AEM as a Cloud Service (crosswalk):
+         <meta name="urn:adobe:aue:system:aemconnection" content="aem:https://author-p<PROGRAM>-e<ENV>.adobeaemcloud.com">
+       DA.live (document source, UE editing of the same docs):
+         <meta name="urn:adobe:aue:system:aemconnection" content="aem:https://admin.da.live/source/<org>/<repo>">
+         (confirm DA's current UE connection scheme in DA docs)
+     When this meta is present, scripts.js loads editor-support.js. Absent it, the page is
+     delivery-only and DA authors use the DA document UI. See docs/authoring-surfaces-and-editors.md -->
+<meta name="urn:adobe:aue:config:disabled" content="reference-repo-placeholder">
