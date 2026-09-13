@@ -21,6 +21,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const ENV = process.env.DA_ENV || 'dev';
+const TOKEN = process.env.DA_TOKEN || '';
 const DRY = process.env.DRY_RUN !== 'false';
 
 const DA_SOURCE_BASE = 'https://admin.da.live/source';        // confirmed path form
@@ -61,6 +62,10 @@ async function put() {
   const resp = await fetch(url, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${auth.token}`, 'Content-Type': 'application/json' },
+  if (!TOKEN) { console.error('DA_TOKEN required to write'); process.exit(1); }
+  const resp = await fetch(url, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     body,
   });
   if (!resp.ok) { console.error(`config PUT ${resp.status}: ${(await resp.text()).slice(0, 300)}`); process.exit(1); }

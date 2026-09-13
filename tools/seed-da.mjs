@@ -23,6 +23,7 @@ const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const REF = process.env.AEM_REF || 'dev';
 let TOKEN = ''; // resolved via Adobe IMS (getAccessToken) unless dry-run
+const TOKEN = process.env.DA_TOKEN || '';
 const ADMIN_AUTH = process.env.AEM_ADMIN_AUTH || '';
 const PUBLISH = process.env.PUBLISH === 'true';
 const DRY = process.env.DRY_RUN !== 'false';
@@ -92,6 +93,7 @@ if (!DRY) {
   TOKEN = auth.token;
   console.log(`IMS auth resolved via: ${auth.source}`);
 }
+if (!DRY && !TOKEN) { console.error('DA_TOKEN required to write (or leave DRY_RUN unset for a dry run)'); process.exit(1); }
 
 const seeded = [];
 for (const abs of files) {
