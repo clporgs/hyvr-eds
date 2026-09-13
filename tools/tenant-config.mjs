@@ -6,8 +6,9 @@
  * config is what kick-starts the authoring phase. Config docs use the .json content type
  * (extension = content type, per DA). Dependency-free; DRY-RUN by default.
  *
- * Env: DA_TOKEN (required to write) · DA_ORG (clporgs) · DA_SITE (hyvr-eds) · DA_ENV (dev)
- *      ASSETS_DELIVERY_HOST (optional) · DRY_RUN ("false" to actually write)
+ * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · DA_ENV (dev) · ASSETS_DELIVERY_HOST (optional)
+ *      DRY_RUN ("false" to actually write) · auth resolved via shared/services/ims-auth
+ *      (IMS_ACCESS_TOKEN/DA_TOKEN | IMS_CLIENT_ID+IMS_CLIENT_SECRET | aio session)
  *
  * CONFIRM against the tenant before live use (DA is evolving):
  *   - CONFIRM_DA_CONFIG_PATH: where DA reads site config (Settings UI vs a config doc path).
@@ -21,7 +22,6 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const ENV = process.env.DA_ENV || 'dev';
-const TOKEN = process.env.DA_TOKEN || '';
 const DRY = process.env.DRY_RUN !== 'false';
 
 const DA_SOURCE_BASE = 'https://admin.da.live/source';        // confirmed path form
@@ -54,7 +54,7 @@ async function put() {
   if (DRY) {
     console.log(`[tenant-config:DRY] would PUT ${body.length} bytes → ${url}`);
     console.log(body);
-    console.log('  (set DRY_RUN=false + DA_TOKEN to write; confirm DA_CONFIG_PATH first)');
+    console.log('  (set DRY_RUN=false + IMS auth (see shared/services/ims-auth) to write; confirm DA_CONFIG_PATH first)');
     return;
   }
   const auth = await getAccessToken();            // Adobe IMS: explicit token | S2S | aio session
@@ -62,10 +62,6 @@ async function put() {
   const resp = await fetch(url, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${auth.token}`, 'Content-Type': 'application/json' },
-  if (!TOKEN) { console.error('DA_TOKEN required to write'); process.exit(1); }
-  const resp = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     body,
   });
   if (!resp.ok) { console.error(`config PUT ${resp.status}: ${(await resp.text()).slice(0, 300)}`); process.exit(1); }

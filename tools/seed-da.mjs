@@ -5,9 +5,10 @@
  * Source API, then triggers aem.live preview (and optional publish). Server-to-server — no
  * CORS/mixed-content. Dependency-free; DRY-RUN by default; idempotent. Seeds any tenant/vertical.
  *
- * Env: DA_TOKEN (required to write) · DA_ORG (clporgs) · DA_SITE (hyvr-eds) · AEM_REF (dev)
- *      SRC_DIR (default the blueprint root) · AEM_ADMIN_AUTH (optional) · PUBLISH ("true")
- *      DRY_RUN ("false" to actually write)
+ * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · AEM_REF (dev) · SRC_DIR (default the blueprint
+ *      root) · AEM_ADMIN_AUTH (optional) · PUBLISH ("true") · DRY_RUN ("false" to actually write)
+ *      auth resolved via shared/services/ims-auth (IMS_ACCESS_TOKEN/DA_TOKEN |
+ *      IMS_CLIENT_ID+IMS_CLIENT_SECRET | aio session)
  *
  * CONFIRM against the tenant: DA source doc wrapper shape, and the aem.live admin base
  * (admin.hlx.page vs admin.aem.live) + its auth header.
@@ -23,7 +24,6 @@ const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const REF = process.env.AEM_REF || 'dev';
 let TOKEN = ''; // resolved via Adobe IMS (getAccessToken) unless dry-run
-const TOKEN = process.env.DA_TOKEN || '';
 const ADMIN_AUTH = process.env.AEM_ADMIN_AUTH || '';
 const PUBLISH = process.env.PUBLISH === 'true';
 const DRY = process.env.DRY_RUN !== 'false';
