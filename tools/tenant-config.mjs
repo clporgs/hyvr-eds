@@ -15,12 +15,12 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { getAccessToken } from '../../shared/services/ims-auth/ims-auth.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const ENV = process.env.DA_ENV || 'dev';
-const TOKEN = process.env.DA_TOKEN || '';
 const DRY = process.env.DRY_RUN !== 'false';
 
 const DA_SOURCE_BASE = 'https://admin.da.live/source';        // confirmed path form
@@ -56,10 +56,11 @@ async function put() {
     console.log('  (set DRY_RUN=false + DA_TOKEN to write; confirm DA_CONFIG_PATH first)');
     return;
   }
-  if (!TOKEN) { console.error('DA_TOKEN required to write'); process.exit(1); }
+  const auth = await getAccessToken();            // Adobe IMS: explicit token | S2S | aio session
+  console.log(`IMS auth resolved via: ${auth.source}`);
   const resp = await fetch(url, {
     method: 'PUT',
-    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${auth.token}`, 'Content-Type': 'application/json' },
     body,
   });
   if (!resp.ok) { console.error(`config PUT ${resp.status}: ${(await resp.text()).slice(0, 300)}`); process.exit(1); }
