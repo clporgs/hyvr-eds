@@ -15,6 +15,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { getAccessToken } from '../../shared/services/ims-auth/ims-auth.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORG = process.env.DA_ORG || 'clporgs';
@@ -56,6 +57,11 @@ async function put() {
     console.log('  (set DRY_RUN=false + DA_TOKEN to write; confirm DA_CONFIG_PATH first)');
     return;
   }
+  const auth = await getAccessToken();            // Adobe IMS: explicit token | S2S | aio session
+  console.log(`IMS auth resolved via: ${auth.source}`);
+  const resp = await fetch(url, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${auth.token}`, 'Content-Type': 'application/json' },
   if (!TOKEN) { console.error('DA_TOKEN required to write'); process.exit(1); }
   const resp = await fetch(url, {
     method: 'PUT',

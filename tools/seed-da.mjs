@@ -15,12 +15,14 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
+import { getAccessToken } from '../../shared/services/ims-auth/ims-auth.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = process.env.SRC_DIR ? join(process.cwd(), process.env.SRC_DIR) : ROOT;
 const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
 const REF = process.env.AEM_REF || 'dev';
+let TOKEN = ''; // resolved via Adobe IMS (getAccessToken) unless dry-run
 const TOKEN = process.env.DA_TOKEN || '';
 const ADMIN_AUTH = process.env.AEM_ADMIN_AUTH || '';
 const PUBLISH = process.env.PUBLISH === 'true';
@@ -86,6 +88,11 @@ async function aem(action, path) {
 
 const files = await walk(SRC);
 console.log(`Seeding ${files.length} docs → DA ${ORG}/${SITE} (ref ${REF})${DRY ? '  [DRY-RUN]' : ''}${PUBLISH ? '  +publish' : ''}`);
+if (!DRY) {
+  const auth = await getAccessToken();            // Adobe IMS: explicit token | S2S | aio session
+  TOKEN = auth.token;
+  console.log(`IMS auth resolved via: ${auth.source}`);
+}
 if (!DRY && !TOKEN) { console.error('DA_TOKEN required to write (or leave DRY_RUN unset for a dry run)'); process.exit(1); }
 
 const seeded = [];
