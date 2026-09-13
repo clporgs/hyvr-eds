@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "serve": "node tools/server.mjs",
+    "serve:https": "node tools/server.mjs",
+    "tenant:config": "node tools/tenant-config.mjs",
+    "seed:da": "node tools/seed-da.mjs",
     "up": "aem up",
     "tokens": "node ../design-system/scripts/build-tokens.mjs --out styles && node -e \"import('node:fs').then(fs=>fs.copyFileSync('styles/tokens.css','styles/tokens.css'))\"",
     "assets": "node tools/generate-placeholders.mjs",

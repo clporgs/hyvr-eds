@@ -185,3 +185,13 @@ if (getMetadata('urn:adobe:aue:system:aemconnection')
 }
 
 loadPage();
+
+/**
+ * DA.live Live Preview — loads only when the `dapreview` query param is present (so it is
+ * zero-cost on delivery). Per docs.da.live/authors/reference/live-preview. Backend/CORS must
+ * allow the origin https://main--<site>--<org>.preview.da.live (see tools/server.mjs allowlist).
+ */
+(async function loadDa() {
+  if (!new URL(window.location.href).searchParams.get('dapreview')) return;
+  import('https://da.live/scripts/dapreview.js').then(({ default: daPreview }) => daPreview(loadPage));
+}());
