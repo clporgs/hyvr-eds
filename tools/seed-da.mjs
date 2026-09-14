@@ -91,6 +91,30 @@ async function putHtml(path, doc) {
   return true;
 }
 
+/**
+ * DA's Library picker needs fully-qualified `https://content.da.live/{org}/{repo}` URLs inside
+ * library/*.json rows (blocks.json's `path`, templates.json's `value`, icons.json's `value`/
+ * `icon`) — a site-relative path like "/block-library/hero" doesn't resolve when DA inserts the
+ * reference. tenant-config.mjs's site-level registry already does this; the nested library docs
+ * didn't cascade it. Kept out of the source files themselves (which stay plain, portable,
+ * relative paths — same convention as every other content file in this repo) and applied here
+ * at seed time instead, using DA_ORG/DA_SITE, since the fully-qualified form is tenant-specific.
+ * Scoped to library/*.json only — HTML docs and placeholders.json are untouched. See "DA seed
+ * notes" in the design doc.
+ */
+function qualifyLibraryRefs(sheet) {
+  if (!Array.isArray(sheet.data)) return sheet;
+  const base = `https://content.da.live/${ORG}/${SITE}`;
+  const data = sheet.data.map((row) => {
+    const out = { ...row };
+    for (const field of ['path', 'value', 'icon']) {
+      if (typeof out[field] === 'string' && out[field].startsWith('/')) out[field] = `${base}${out[field]}`;
+    }
+    return out;
+  });
+  return { ...sheet, data };
+}
+
 /** JSON "sheet" docs: POST multipart/form-data, field `data`, :type:"sheet" metadata (Incident #6). */
 async function putJson(path, sheet) {
   const body = JSON.stringify({ ...sheet, ':type': sheet[':type'] || 'sheet' });
@@ -142,7 +166,8 @@ for (const { abs, rel, ext } of files) {
   // (confirmed via admin.hlx.page/status: "code" lookup 400s for these). placeholders.json DOES
   // need the delivery domain (client JS fetches it — see scripts/aem.js) so it stays previewed.
   const needsPreview = !(ext === 'json' && rel.startsWith('library/'));
-  const ok = ext === 'json' ? await putJson(path, JSON.parse(raw)) : await putHtml(path, toDaDoc(raw, rel.endsWith('.plain.html')));
+  const jsonSheet = ext === 'json' ? (rel.startsWith('library/') ? qualifyLibraryRefs(JSON.parse(raw)) : JSON.parse(raw)) : null;
+  const ok = ext === 'json' ? await putJson(path, jsonSheet) : await putHtml(path, toDaDoc(raw, rel.endsWith('.plain.html')));
   if (ok) {
     seeded.push(path);
     if (needsPreview) toPreview.push(path);
