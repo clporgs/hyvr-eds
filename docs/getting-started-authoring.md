@@ -13,7 +13,7 @@ node tools/gen-models.mjs                  # UE component-*.json (root) + per-bl
 node tools/gen-block-library.mjs           # Sidekick block Library + example pages
 node tools/gen-pages.mjs                   # PDPs for every product in the index
 node tools/server.mjs                      # http://localhost:3001
-npm test                                   # 14/14
+npm test                                   # 27/27
 ```
 Or `aem up` once the repo is connected to Code Sync.
 
@@ -25,13 +25,17 @@ Or `aem up` once the repo is connected to Code Sync.
 5. **Reskin** — `node ../tools/demo-server.mjs terra` (:3003): the *same blocks* as a totally
    different brand (TERRA travel) — the multi-vertical demo-factory proof.
 6. **Authoring** — open the Sidekick **Library**; insert a block; preview.
+7. **Author onboarding** — open `/getting-started-for-authors` first (folder structure, block
+   Library, drafting, preview/publish); duplicate `/drafts/starter-page` to start a new page
+   without touching a real one.
 
 ## 3. Author on both surfaces (same blocks, same delivery)
 Blueprint 1 is instrumented for **both** EDS authoring models; pick per team/engagement.
 
 ### A. DA.live (document authoring)
 - Content mounts via `fstab.yaml` (`content.da.live/<org>/hyvr-eds`).
-- **Block Library**: Sidekick → **Library** lists the 15 blocks (from `tools/sidekick/library.json` → `/block-library/*`). Insert → fill → preview → publish.
+- **Block Library**: Sidekick → **Library** lists the 15 blocks (from `tools/sidekick/library.json` → `/block-library/*`, seeded as real DA docs — `fstab.yaml` mounts the whole root to DA, so these are not code-served). Insert → fill → preview → publish.
+- **Drafts**: `/drafts` (landing) and `/drafts/starter-page` (duplicable template) give authors a WIP area excluded from search/sitemap. See `/getting-started-for-authors` for the full folder-structure guide.
 - **Assets**: Sidekick → **Assets** (once `tools/da/config.json` → AEM Assets is wired; else DA uploads).
 - Setup: [`../../docs/onboarding/da-live-library-and-assets.md`](../../docs/onboarding/da-live-library-and-assets.md).
 
@@ -55,7 +59,8 @@ Blueprint 1 is instrumented for **both** EDS authoring models; pick per team/eng
 
 ## 5. Resume / Definition of Done
 - **Code-side [R]:** blocks, runtime, tokens, UE models (both surfaces), DA Library, pages,
-  tests, CI, subtree-publish — all present and green (14/14).
+  author-enablement structure (drafts + author guide), tests, CI, subtree-publish — all present
+  and green (27/27).
 - **To reach a live demo [A]:** finish the DA-side + Adobe steps in
   [`../../docs/onboarding/runtime-onboarding-checklist.md`](../../docs/onboarding/runtime-onboarding-checklist.md)
   §B (DA.live org + Library/Assets config + Tags + optional Assets tenant).

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Author guide — Getting started | HYVR</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Folder structure, block Library, drafts convention, and the preview/publish flow for HYVR authors.">
+  <meta name="template" content="default">
+  <meta name="theme-color" content="#0A0A0F">
+  <link rel="icon" href="/icons/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles/fonts.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <script src="/scripts/scripts.js" type="module"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-main">Skip to content</a>
+  <header></header>
+  <main id="main">
+    <div>
+      <div class="hero">
+        <div>
+          <div>
+            <h1>Welcome, HYVR author</h1>
+            <p>This page is your starting point — folder structure, the block Library, drafts,
+            and how preview/publish works. Bookmark it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Folder structure</h2>
+      <div class="product-specs">
+        <div><div>Site pages</div></div>
+        <div><div>/</div><div>Home, About, Products, Community, Support, Privacy, Contact — the real, live site pages.</div></div>
+        <div><div>/product/*</div><div>One page per product detail page (PDP).</div></div>
+        <div><div>Author tools</div></div>
+        <div><div>/block-library/*</div><div>One labelled, insertable example per block. Open one, copy its table, paste into your page, then edit the content.</div></div>
+        <div><div>/drafts/*</div><div>Scratch space — <strong>excluded from search, the product index, and the sitemap</strong>. Draft freely, preview normally, move the page out when it's ready to go live.</div></div>
+      </div>
+    </div>
+
+    <div class="dark">
+      <h2>Working with blocks</h2>
+      <div class="cards">
+        <div><div><h3>1. Find the block</h3><p>Browse <a href="/block-library">/block-library</a> for every available block with a working example.</p></div></div>
+        <div><div><h3>2. Copy the table</h3><p>Each block is authored as a table — the block name in the first row, then one row per field. Copy it as-is.</p></div></div>
+        <div><div><h3>3. Edit the content</h3><p>Change the text/links/images inside the table cells. Don't rename the block's first-row heading.</p></div></div>
+      </div>
+      <p>Plain headings and paragraphs need no table at all — just write them like a normal document.</p>
+    </div>
+
+    <div>
+      <h2>Drafting a new page</h2>
+      <p>Duplicate <a href="/drafts/starter-page">/drafts/starter-page</a> as your base — it has a
+      hero, a plain-content section, a cards block, and a call-to-action already wired up, with
+      inline notes on what to replace.</p>
+    </div>
+
+    <div>
+      <h2>Preview &amp; publish</h2>
+      <div class="product-specs">
+        <div><div>Preview</div><div>Open the page in DA → Sidekick → <strong>Preview</strong>. Renders at <code>&lt;branch&gt;--hyvr-eds--clporgs.aem.page</code>.</div></div>
+        <div><div>Publish</div><div>Sidekick → <strong>Publish</strong> once you're happy. Goes live at <code>&lt;branch&gt;--hyvr-eds--clporgs.aem.live</code>.</div></div>
+        <div><div>Images</div><div>Use DA's asset picker where available; otherwise reference an existing icon under <code>/icons</code>. Ask the platform team before adding new binary assets.</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="community-cta">
+        <div>
+          <div>
+            <h2>Questions?</h2>
+            <p>Ask in the team channel, or open <a href="/drafts/">/drafts</a> to try things out first — nothing there can break the live site.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+</html>

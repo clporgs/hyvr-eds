@@ -1,0 +1,22 @@
+{
+  "total": 15,
+  "offset": 0,
+  "limit": 15,
+  "data": [
+    { "name": "Hero", "path": "/block-library/hero" },
+    { "name": "Cards", "path": "/block-library/cards" },
+    { "name": "Columns", "path": "/block-library/columns" },
+    { "name": "Stats", "path": "/block-library/stats" },
+    { "name": "Quote", "path": "/block-library/quote" },
+    { "name": "Community Cta", "path": "/block-library/community-cta" },
+    { "name": "Drop Badge", "path": "/block-library/drop-badge" },
+    { "name": "Breadcrumb", "path": "/block-library/breadcrumb" },
+    { "name": "Product Grid", "path": "/block-library/product-grid" },
+    { "name": "Product Filter", "path": "/block-library/product-filter" },
+    { "name": "Product Hero", "path": "/block-library/product-hero" },
+    { "name": "Product Specs", "path": "/block-library/product-specs" },
+    { "name": "Product Gallery", "path": "/block-library/product-gallery" },
+    { "name": "Comparison", "path": "/block-library/comparison" },
+    { "name": "Contact Form", "path": "/block-library/contact-form" }
+  ]
+}
