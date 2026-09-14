@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 /**
  * HYVR — standard tenant CONFIG writer (DA + EDS surface).
- * Writes DA site configuration (Library pointer, AEM Assets pointer, preview/live hosts) via
- * the DA **Config API** — NOT the Source API (an earlier version of this script mistakenly
- * used PUT /source/.../.da/config.json; that write silently failed / had no effect on DA's
- * actual config). Confirmed against https://docs.da.live/developers/api/config and empirically
- * verified against the live tenant (2026-09-14):
+ * Writes DA site configuration via the DA **Config API**. Confirmed against
+ * https://docs.da.live/developers/api/config, https://docs.da.live/administrators/guides/setup-library,
+ * and empirically against the live tenant + the `clporgs/eds-da-template` reference (2026-09-14):
  *
  *   POST https://admin.da.live/config/{org}                → organization-wide config
  *   POST https://admin.da.live/config/{org}/{repo}          → site/repo-wide config (default here)
@@ -15,44 +13,57 @@
  * JSON-stringified sheet (a plain string field, NOT a Blob/file attachment, and NOT `data` —
  * both of those were tried first and rejected with 400 "No config or form data").
  *
- * Config bodies use the same DA "sheet" JSON shape as any other DA JSON resource (single-sheet
- * or multi-sheet — see docs.da.live). Our settings are flat key/value pairs, so we emit a
- * single-sheet payload: { total, offset, limit, data: [{ key, value }, ...] } — the same
- * convention this repo already uses for placeholders.json / query-index.json.
+ * Site-level schema — CORRECTED (see "Incident record #5"): the real DA Library feature is
+ * driven by a **Library registry table**, not flat key/value settings. Checking the reference
+ * template's live config confirmed the exact shape: a single sheet with columns
+ * `title | path | format | ref | icon | experience`, where each row points at a real content
+ * JSON doc under this same site (`blocks.json`/`templates.json`/`icons.json`/`placeholders.json`
+ * — see `library/*.json` and the repo-root `placeholders.json`, all HYVR's own content, none
+ * copied from the reference tenant). Two things the earlier flat-settings version got wrong:
+ *   - `assets.*` does NOT belong at site scope — AEM Assets connection (`aem.repositoryId` etc.)
+ *     is an ORG-level setting, and `clporgs`'s org config already has the real one. No per-site
+ *     duplicate needed.
+ *   - `hosts.*` isn't a DA config concept at all — Sidekick computes preview/live URLs itself by
+ *     convention from org/repo/ref; nothing to store.
+ *
+ * Media/icon upload: per https://docs.da.live/authors/guides/adding-media there is no REST
+ * upload API — DA only accepts media via the editor itself (drag-and-drop into a doc, a
+ * top-level `media` folder + copy/paste, or an AEM Assets connection). `library/icons.json`
+ * therefore references HYVR's existing code-served `/icons/*.svg` files rather than uploading
+ * new binaries — that's the only scriptable option available.
  *
  * Org-level safety: GET https://admin.da.live/config/clporgs already returns REAL production
  * data (the org's actual `aem.repositoryId`, plus `permissions`/`admin.role.*` rows that
  * authorize config writes at all). A blind overwrite at org scope would destroy that. So org
  * scope is opt-in (via CONFIG_SCOPE) and always GET-then-merges into the existing `data` sheet,
  * leaving `permissions` and any other existing rows untouched. Site and path scope are safe to
- * write outright — both are currently empty (404) for this tenant.
+ * write outright — both were empty (404) for this tenant before this script ran.
  *
  * Config-first: this runs BEFORE content seeding because config is what kick-starts the
- * authoring phase (Library palette, Assets pointer). Dependency-free; DRY-RUN by default.
+ * authoring phase (Library palette). Dependency-free; DRY-RUN by default.
  *
- * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · DA_ENV (dev) · CONFIG_SCOPE (comma-separated
- *      subset of site|path|org, default "site,path" — org is opt-in, see safety note above) ·
- *      CONFIG_PATH (path-specific scope segment, default "drafts") · ASSETS_DELIVERY_HOST
- *      (override; else read from the real org-level aem.repositoryId, else a guessed fallback)
- *      · DRY_RUN ("false" to actually write) · auth resolved via shared/services/ims-auth
+ * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · CONFIG_SCOPE (comma-separated subset of
+ *      site|path|org, default "site,path" — org is opt-in, see safety note above) ·
+ *      CONFIG_PATH (path-specific scope segment, default "drafts") · DRY_RUN ("false" to
+ *      actually write) · auth resolved via shared/services/ims-auth
  *      (IMS_ACCESS_TOKEN/DA_TOKEN | IMS_CLIENT_ID+IMS_CLIENT_SECRET | aio session)
  */
 import { getAccessToken } from '../../shared/services/ims-auth/ims-auth.mjs';
 
 const ORG = process.env.DA_ORG || 'clporgs';
 const SITE = process.env.DA_SITE || 'hyvr-eds';
-const ENV = process.env.DA_ENV || 'dev';
 const SCOPES = (process.env.CONFIG_SCOPE || 'site,path').split(',').map((s) => s.trim()).filter(Boolean);
 const CONFIG_PATH = process.env.CONFIG_PATH || 'drafts';
 const DRY = process.env.DRY_RUN !== 'false';
 
 const DA_CONFIG_BASE = 'https://admin.da.live/config'; // per DA Config API spec (POST, not PUT/source)
+const CONTENT_BASE = `https://content.da.live/${ORG}/${SITE}`; // published content-doc host, not the editor host
 
 function toSingleSheet(rows) {
   return { total: rows.length, offset: 0, limit: rows.length, data: rows };
 }
 
-/** Read-only GET — used both to fetch the real org repositoryId and to merge-safe org writes. */
+/** Read-only GET — used for the merge-safe org write. */
 async function getConfig(url, token) {
   const resp = await fetch(url, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } });
   if (resp.status === 404) return null;
@@ -71,18 +82,15 @@ async function postConfig(url, sheet, token) {
   if (!resp.ok) throw new Error(`POST ${resp.status} ${url}: ${(await resp.text()).slice(0, 300)}`);
 }
 
-/** site-level settings: Library pointer, AEM Assets pointer, preview/live/DA-preview hosts */
-function buildSiteSheet(assetsHost) {
-  const settings = {
-    library: '/tools/sidekick/library.json',
-    'assets.repositoryId': assetsHost,
-    'assets.aemTierType': 'delivery',
-    'assets.imageUrlPattern': `https://${assetsHost}/adobe/assets/urn:aaid:aem:{asset-id}/original/as/{name}?width={width}&format=webply&optimize=medium`,
-    'hosts.preview': `https://main--${SITE}--${ORG}.aem.page`,
-    'hosts.live': `https://main--${SITE}--${ORG}.aem.live`,
-    'hosts.daPreview': `https://main--${SITE}--${ORG}.preview.da.live`,
-  };
-  return toSingleSheet(Object.entries(settings).map(([key, value]) => ({ key, value })));
+/** site-level: the Library registry table DA's Sidekick/editor Library panel reads. */
+function buildSiteSheet() {
+  const rows = [
+    { title: 'Blocks', path: `${CONTENT_BASE}/library/blocks.json`, format: '', ref: '', icon: '', experience: '' },
+    { title: 'Templates', path: `${CONTENT_BASE}/library/templates.json`, format: '', ref: '', icon: '', experience: '' },
+    { title: 'Icons', path: `${CONTENT_BASE}/library/icons.json`, format: ':<content>:', ref: '', icon: '', experience: '' },
+    { title: 'Placeholders', path: `${CONTENT_BASE}/placeholders.json`, format: '{{<content>}}', ref: '', icon: '', experience: '' },
+  ];
+  return toSingleSheet(rows);
 }
 
 /** path-specific settings for /drafts — matches the helix-query.yaml/helix-sitemap.yaml exclusion. */
@@ -112,19 +120,8 @@ async function run() {
     console.log(`IMS auth resolved via: ${auth.source}`);
   }
 
-  // resolve the real AEM Assets repositoryId from the existing org config rather than guessing
-  let assetsHost = process.env.ASSETS_DELIVERY_HOST;
-  if (!assetsHost && token) {
-    try {
-      const orgConfig = await getConfig(`${DA_CONFIG_BASE}/${ORG}`, token);
-      assetsHost = orgConfig?.data?.data?.find((r) => r.key === 'aem.repositoryId')?.value;
-      if (assetsHost) console.log(`Using real org aem.repositoryId: ${assetsHost}`);
-    } catch (err) { console.error(`  (could not read org config for repositoryId: ${err.message})`); }
-  }
-  assetsHost ||= `delivery-${ORG}-${ENV}.adobeaemcloud.com`; // best-effort fallback, DRY-RUN or no org read access
-
   if (SCOPES.includes('site')) {
-    await writeScope('site', `${DA_CONFIG_BASE}/${ORG}/${SITE}`, buildSiteSheet(assetsHost), token);
+    await writeScope('site', `${DA_CONFIG_BASE}/${ORG}/${SITE}`, buildSiteSheet(), token);
   }
   if (SCOPES.includes('path')) {
     await writeScope('path', `${DA_CONFIG_BASE}/${ORG}/${SITE}/${CONFIG_PATH}`, buildPathSheet(), token);
