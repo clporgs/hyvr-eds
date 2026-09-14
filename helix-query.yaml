@@ -1,6 +1,11 @@
 # Defines the searchable, machine-consumable product index that aem.live generates
 # and serves at /query-index.json. This index powers product-grid, product-filter,
 # and comparison, and is directly consumable by AI/answer engines (Req 4).
+#
+# Author-enablement convention: /drafts/** is scratch space (work-in-progress, never
+# publish-eligible by accident) and /block-library/** is reference/insertable examples, not
+# real site content — both are excluded from every index below so they never leak into search,
+# AI-discoverable indices, or the sitemap. See getting-started-for-authors.html.
 version: 1
 
 indices:
@@ -9,6 +14,8 @@ indices:
       - '/product/**'
     exclude:
       - '/product/drafts/**'
+      - '/drafts/**'
+      - '/block-library/**'
     target: /query-index.json
     properties:
       title:
@@ -52,6 +59,30 @@ indices:
         value: attribute(el, 'content')
       summary:
         select: head > meta[name="description"]
+        value: attribute(el, 'content')
+      lastModified:
+        select: none
+        value: parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')
+
+  # A general site-page index — lets authors (and AI/answer engines) see what's actually live,
+  # separate from the narrower product index above. Excludes scratch/reference content.
+  pages:
+    include:
+      - '/**'
+    exclude:
+      - '/product/**'
+      - '/drafts/**'
+      - '/block-library/**'
+    target: /pages-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, 'content')
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, 'content')
+      template:
+        select: head > meta[name="template"]
         value: attribute(el, 'content')
       lastModified:
         select: none

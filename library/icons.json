@@ -1,0 +1,12 @@
+{
+  "total": 5,
+  "offset": 0,
+  "limit": 5,
+  "data": [
+    { "key": ":account:", "value": "/icons/account.svg", "icon": "/icons/account.svg" },
+    { "key": ":cart:", "value": "/icons/cart.svg", "icon": "/icons/cart.svg" },
+    { "key": ":discord:", "value": "/icons/discord.svg", "icon": "/icons/discord.svg" },
+    { "key": ":logo:", "value": "/icons/logo.svg", "icon": "/icons/logo.svg" },
+    { "key": ":search:", "value": "/icons/search.svg", "icon": "/icons/search.svg" }
+  ]
+}
