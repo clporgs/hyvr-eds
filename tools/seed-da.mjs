@@ -74,7 +74,10 @@ async function put(path, doc) {
 async function aem(action, path) {
   const url = `${AEM_ADMIN_BASE}/${action}/${ORG}/${SITE}/${REF}${path}`;
   if (DRY) { console.log(`[seed:DRY] POST ${action} → ${url}`); return true; }
-  const headers = ADMIN_AUTH ? { Authorization: `Bearer ${ADMIN_AUTH}` } : {};
+  // The same Adobe IMS identity that authorizes DA writes also authorizes the AEM admin API
+  // (confirmed empirically 2026-09-14) — fall back to TOKEN unless a distinct admin credential
+  // is explicitly provided.
+  const headers = { Authorization: `Bearer ${ADMIN_AUTH || TOKEN}` };
   const resp = await fetch(url, { method: 'POST', headers });
   if (!resp.ok) { console.error(`  ${action} ${resp.status} ${path}`); return false; }
   return true;
