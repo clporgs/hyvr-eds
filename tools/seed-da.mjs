@@ -47,8 +47,13 @@ function toDaDoc(html, isFragment) { return toDaSource(html, isFragment); }
 async function walk(dir) {
   const out = [];
   for (const name of await readdir(dir)) {
-    // skip code/tooling dirs and block-library (code-served via aem.live, not DA-authored)
-    if (['node_modules', '.git', 'tools', 'test', 'styles', 'scripts', 'icons', 'models', 'fonts', '.github', 'docs', 'block-library'].includes(name)) continue;
+    // skip only genuinely code-only dirs (JS/CSS/SVG/fonts/workflows/internal docs). NOTE:
+    // block-library and drafts are NOT excluded — fstab.yaml mounts the whole root to DA, so
+    // any content-shaped .html path (including /block-library/* and /drafts/*) must exist as a
+    // real DA document to resolve at all in the deployed site (an earlier version of this
+    // script wrongly assumed block-library was code-served; it is not — see the design note's
+    // "Incident record #3").
+    if (['node_modules', '.git', 'tools', 'test', 'styles', 'scripts', 'icons', 'models', 'fonts', '.github', 'docs'].includes(name)) continue;
     if (name === 'head.html') continue; // <head> fragment, not a page/doc
     const abs = join(dir, name);
     const s = await stat(abs);

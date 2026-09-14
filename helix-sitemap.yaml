@@ -1,4 +1,8 @@
 # Sitemap generation for SEO / GEO / AEO discoverability (Req 6).
+# Two sources, matching the two indices in helix-query.yaml: products (narrow, product-shaped
+# metadata) and pages (general site pages — home, about, the author guide, etc.). Both already
+# exclude /drafts/** and /block-library/** at the index level (see helix-query.yaml), so neither
+# sitemap can leak scratch/reference content.
 version: 1
 sitemaps:
   default:
@@ -6,7 +10,8 @@ sitemaps:
     source: /query-index.json
     destination: /sitemap.xml
     lastmod: lastModified
-  editorial:
+  pages:
     origin: https://www.hyvr.example
-    source: /editorial-index.json
-    destination: /sitemap-editorial.xml
+    source: /pages-index.json
+    destination: /sitemap-pages.xml
+    lastmod: lastModified
