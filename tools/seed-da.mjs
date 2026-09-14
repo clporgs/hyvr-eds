@@ -1,22 +1,25 @@
 #!/usr/bin/env node
 /**
  * HYVR — DA content seeder (DA + EDS surface).
- * Transforms each repo page's <main> block markup into a DA document and PUTs it via the DA
- * Source API, then triggers aem.live preview (and optional publish). Server-to-server — no
- * CORS/mixed-content. Dependency-free; DRY-RUN by default; idempotent. Seeds any tenant/vertical.
+ * Transforms each page's delivery-shape HTML into DA's TABLE-based document source (see
+ * da-doc-transform.mjs — blocks are authored as tables, not pre-converted divs; confirmed
+ * against Adobe's own docs) and PUTs it via the DA Source API, then triggers aem.live preview
+ * (and optional publish). Server-to-server — no CORS/mixed-content. Dependency-free; DRY-RUN by
+ * default; idempotent. Seeds any tenant/vertical.
  *
  * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · AEM_REF (dev) · SRC_DIR (default the blueprint
  *      root) · AEM_ADMIN_AUTH (optional) · PUBLISH ("true") · DRY_RUN ("false" to actually write)
  *      auth resolved via shared/services/ims-auth (IMS_ACCESS_TOKEN/DA_TOKEN |
  *      IMS_CLIENT_ID+IMS_CLIENT_SECRET | aio session)
  *
- * CONFIRM against the tenant: DA source doc wrapper shape, and the aem.live admin base
- * (admin.hlx.page vs admin.aem.live) + its auth header.
+ * CONFIRM against the tenant: the aem.live admin base (admin.hlx.page vs admin.aem.live) + its
+ * auth header (see the "live run" incident record for the confirmed DA Source/Config API forms).
  */
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
 import { getAccessToken } from '../../shared/services/ims-auth/ims-auth.mjs';
+import { toDaSource } from './da-doc-transform.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = process.env.SRC_DIR ? join(process.cwd(), process.env.SRC_DIR) : ROOT;
@@ -38,22 +41,8 @@ function docPath(rel) {
   return `/${p.replace(/\.html$/, '')}`;                                    // product/x.html -> /product/x
 }
 
-/** extract <main> inner; fall back to full-body fragments (.plain.html) */
-function toDaDoc(html, isFragment) {
-  let inner;
-  if (isFragment) inner = html.trim();
-  else {
-    const m = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-    inner = (m ? m[1] : html).trim();
-  }
-  // carry key metadata as an EDS Metadata block so template/SEO survive round-trip
-  const meta = [...html.matchAll(/<meta\s+(?:name|property)="([^"]+)"\s+content="([^"]*)"/gi)]
-    .filter(([, k]) => /^(description|template|og:|product-|sku|price|currency|availability|category)/i.test(k))
-    .map(([, k, v]) => `<div><div>${k}</div><div>${v}</div></div>`).join('');
-  const metaBlock = meta ? `\n<div class="metadata">${meta}</div>` : '';
-  // CONFIRM: DA doc wrapper — content in <body>; pipeline wraps sections into <main>.
-  return `<body>\n${inner}${metaBlock}\n</body>\n`;
-}
+/** Delivery-shape HTML -> DA document source (tables for blocks — see da-doc-transform.mjs). */
+function toDaDoc(html, isFragment) { return toDaSource(html, isFragment); }
 
 async function walk(dir) {
   const out = [];

@@ -1,9 +1,6 @@
 {
-  "$comment": "AEM Sidekick config — author toolbar (preview/publish) + plugins. The `library` plugin surfaces the DA.live/Sidekick BLOCK LIBRARY (tools/sidekick/library.json → /block-library/*), giving authors an insertable block palette. The `assets` plugin opens the AEM Assets selector (needs an Assets tenant — gap G-BP1-2; set the host below). Hosts are illustrative until DA.live + Assets are provisioned.",
+  "$comment": "AEM Sidekick config — author toolbar (preview/publish) + plugins. The `library` plugin surfaces the DA.live/Sidekick BLOCK LIBRARY (tools/sidekick/library.json → /block-library/*), giving authors an insertable block palette. The `assets` plugin opens the AEM Assets selector (needs an Assets tenant — gap G-BP1-2; set the host below). DO NOT set `host`/`previewHost`/`liveHost` unless a REAL custom production domain is mapped — when present, Sidekick trusts them over its default computation and builds broken URLs (this caused Preview to resolve to a fictitious https://preview.hyvr.example/... instead of https://<ref>--hyvr-eds--clporgs.aem.page/...). Leave them absent so Sidekick derives the standard <ref>--<repo>--<org>.aem.page / .aem.live pattern from the connected GitHub repo. Re-add only once a real domain (e.g. www.hyvr-brand.com) is CNAME-mapped in production.",
   "project": "HYVR",
-  "host": "www.hyvr.example",
-  "previewHost": "preview.hyvr.example",
-  "liveHost": "live.hyvr.example",
   "plugins": [
     {
       "id": "library",
