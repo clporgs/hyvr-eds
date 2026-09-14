@@ -86,7 +86,7 @@ async function walk(dir) {
 async function putHtml(path, doc) {
   const url = `${DA_SOURCE_BASE}/${ORG}/${SITE}${path}.html`;
   if (DRY) { console.log(`[seed:DRY] PUT ${String(doc.length).padStart(6)}B → ${url}`); return true; }
-  const resp = await fetch(url, { method: 'PUT', headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'text/html' }, body: doc });
+  const resp = await fetch(url, { method: 'PUT', headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': contentType }, body: doc });
   if (!resp.ok) { console.error(`  PUT ${resp.status} ${path}: ${(await resp.text()).slice(0, 200)}`); return false; }
   return true;
 }
