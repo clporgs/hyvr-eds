@@ -59,8 +59,8 @@ const DRY = process.env.DRY_RUN !== 'false';
 const DA_CONFIG_BASE = 'https://admin.da.live/config'; // per DA Config API spec (POST, not PUT/source)
 const CONTENT_BASE = `https://content.da.live/${ORG}/${SITE}`; // published content-doc host, not the editor host
 
-function toSingleSheet(rows) {
-  return { total: rows.length, offset: 0, limit: rows.length, data: rows };
+function toSingleSheet(rows, sheetName = 'data') {
+  return { total: rows.length, offset: 0, limit: rows.length, data: rows, ':sheetname': sheetName, ':type': 'sheet' };
 }
 
 /** Read-only GET — used for the merge-safe org write. */

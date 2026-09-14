@@ -7,14 +7,20 @@
  * (and optional publish). Server-to-server — no CORS/mixed-content. Dependency-free; DRY-RUN by
  * default; idempotent. Seeds any tenant/vertical.
  *
- * Also seeds a small, explicit allowlist of JSON content docs (JSON_CONTENT below) verbatim —
- * no HTML transform, just PUT with Content-Type: application/json. These are resources the
- * delivery runtime fetches at request time (placeholders.json — see scripts/aem.js) or that
- * DA's own Library feature reads (library/*.json — see tenant-config.mjs's site-level Library
- * registry). Deliberately NOT a blanket "seed every .json file" — most JSON in this repo is
- * code/tooling (component-*.json for the UE surface, query-index.json which the delivery
- * pipeline generates itself from helix-query.yaml, paths.json, package.json, etc.) and must stay
- * code-served, not duplicated as DA content. See "Incident record #5".
+ * Also seeds a small, explicit allowlist of JSON content docs (JSON_CONTENT below). These are
+ * resources the delivery runtime fetches at request time (placeholders.json — see
+ * scripts/aem.js) or that DA's own Library feature reads (library/*.json — see
+ * tenant-config.mjs's site-level Library registry). Deliberately NOT a blanket "seed every .json
+ * file" — most JSON in this repo is code/tooling (component-*.json for the UE surface,
+ * query-index.json which the delivery pipeline generates itself from helix-query.yaml,
+ * paths.json, package.json, etc.) and must stay code-served, not duplicated as DA content.
+ *
+ * DA reflects JSON docs as "sheets", same as the Config API — confirmed against
+ * https://docs.da.live/developers/api/source: POST (not PUT), multipart/form-data with a field
+ * named `data` holding the file content, and the payload needs `:type: "sheet"` metadata (an
+ * earlier version PUT raw JSON text with no sheet metadata at all — DA stored the bytes
+ * faithfully, as a GET round-trip confirmed, but its own Library-reading logic never recognized
+ * it as a sheet). See "Incident record #6".
  *
  * Env: DA_ORG (clporgs) · DA_SITE (hyvr-eds) · AEM_REF (dev) · SRC_DIR (default the blueprint
  *      root) · AEM_ADMIN_AUTH (optional) · PUBLISH ("true") · DRY_RUN ("false" to actually write)
@@ -76,12 +82,24 @@ async function walk(dir) {
   return out;
 }
 
-async function put(path, doc, ext) {
-  const contentType = ext === 'json' ? 'application/json' : 'text/html';
-  const url = `${DA_SOURCE_BASE}/${ORG}/${SITE}${path}.${ext}`;
+/** HTML docs: PUT with a raw text/html body (confirmed working — Incident #2). */
+async function putHtml(path, doc) {
+  const url = `${DA_SOURCE_BASE}/${ORG}/${SITE}${path}.html`;
   if (DRY) { console.log(`[seed:DRY] PUT ${String(doc.length).padStart(6)}B → ${url}`); return true; }
-  const resp = await fetch(url, { method: 'PUT', headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': contentType }, body: doc });
+  const resp = await fetch(url, { method: 'PUT', headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'text/html' }, body: doc });
   if (!resp.ok) { console.error(`  PUT ${resp.status} ${path}: ${(await resp.text()).slice(0, 200)}`); return false; }
+  return true;
+}
+
+/** JSON "sheet" docs: POST multipart/form-data, field `data`, :type:"sheet" metadata (Incident #6). */
+async function putJson(path, sheet) {
+  const body = JSON.stringify({ ...sheet, ':type': sheet[':type'] || 'sheet' });
+  const url = `${DA_SOURCE_BASE}/${ORG}/${SITE}${path}.json`;
+  if (DRY) { console.log(`[seed:DRY] POST ${String(body.length).padStart(6)}B → ${url}`); return true; }
+  const form = new FormData();
+  form.append('data', new Blob([body], { type: 'application/json' }), path.split('/').pop());
+  const resp = await fetch(url, { method: 'POST', headers: { Authorization: `Bearer ${TOKEN}` }, body: form });
+  if (!resp.ok) { console.error(`  POST ${resp.status} ${path}: ${(await resp.text()).slice(0, 200)}`); return false; }
   return true;
 }
 
@@ -118,14 +136,14 @@ const toPreview = [];
 for (const { abs, rel, ext } of files) {
   const raw = await readFile(abs, 'utf8');
   const path = docPath(rel, ext);
-  const doc = ext === 'json' ? raw : toDaDoc(raw, rel.endsWith('.plain.html'));
   // library/*.json is read directly from content.da.live by DA's own Library panel — it never
   // goes through the aem.page/aem.live delivery pipeline, and that pipeline's preview/publish
   // actions don't support hand-authored JSON docs outside its query-index/page model anyway
   // (confirmed via admin.hlx.page/status: "code" lookup 400s for these). placeholders.json DOES
   // need the delivery domain (client JS fetches it — see scripts/aem.js) so it stays previewed.
   const needsPreview = !(ext === 'json' && rel.startsWith('library/'));
-  if (await put(path, doc, ext)) {
+  const ok = ext === 'json' ? await putJson(path, JSON.parse(raw)) : await putHtml(path, toDaDoc(raw, rel.endsWith('.plain.html')));
+  if (ok) {
     seeded.push(path);
     if (needsPreview) toPreview.push(path);
   }
